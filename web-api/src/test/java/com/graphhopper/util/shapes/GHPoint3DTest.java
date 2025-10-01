@@ -49,7 +49,7 @@ public class GHPoint3DTest {
     public void testConstructorAndGetters() {
         // Teste la création d'un GHPoint3D avec les coordonnées d'Oslo
         GHPoint3D point = new GHPoint3D(59.9139, 10.7522, 100.0);
-        assertEquals(59.9139, point.getLat(), 1e-6, "Lattitude should be equal to Oslo, Norway");
+        assertEquals(59.9139, point.getLat(), 1e-6, "Latitude should be equal to Oslo, Norway");
         assertEquals(10.7522, point.getLon(), 1e-6, "Longitude should be equal to Oslo, Norway");
         assertEquals(100.0, point.getEle(), 1e-6, "Elevation should be equal");
         assertTrue(point.isValid(), "Point should be valid");

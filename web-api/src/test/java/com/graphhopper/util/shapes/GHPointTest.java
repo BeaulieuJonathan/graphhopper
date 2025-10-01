@@ -40,19 +40,19 @@ public class GHPointTest {
     public void testConstructorAndGetters() {
         // Teste la création d'un GHPoint avec les coordonnées d'Oslo
         GHPoint point = new GHPoint(59.9139, 10.7522);
-        assertEquals(59.9139, point.getLat(), 1e-6, "La latitude doit correspondre à celle d'Oslo");
-        assertEquals(10.7522, point.getLon(), 1e-6, "La longitude doit correspondre à celle d'Oslo");
-        assertTrue(point.isValid(), "Le point doit être valide");
+        assertEquals(59.9139, point.getLat(), 1e-6, "Latitude should be equal to d'Oslo");
+        assertEquals(10.7522, point.getLon(), 1e-6, "Longitude should be equal to d'Oslo");
+        assertTrue(point.isValid(), "Point should be valid");
     }
 
     @Test
     public void testFromString() {
         // Teste le parsing d'une chaîne en GHPoint avec les coordonnées d'Oslo
         GHPoint point = GHPoint.fromString("59.9139,10.7522");
-        assertEquals(59.9139, point.getLat(), 1e-6, "La latitude doit être correctement parsée");
-        assertEquals(10.7522, point.getLon(), 1e-6, "La longitude doit être correctement parsée");
+        assertEquals(59.9139, point.getLat(), 1e-6, "Lattitude should be parsed correctly");
+        assertEquals(10.7522, point.getLon(), 1e-6, "Longitude should be parsed correctly");
         assertThrows(IllegalArgumentException.class, () -> GHPoint.fromString("invalid"),
-                "Une chaîne invalide doit lever une exception");
+                "Invalid string should result in exception");
     }
 
     @Test
@@ -61,8 +61,8 @@ public class GHPointTest {
         GHPoint point1 = new GHPoint(59.9139, 10.7522);
         GHPoint point2 = new GHPoint(59.9139, 10.7522);
         GHPoint point3 = new GHPoint(51.5074, -0.1278); // Coordonnées de Londres pour contraste
-        assertEquals(point1, point2, "Les points identiques doivent être égaux");
-        assertEquals(point1.hashCode(), point2.hashCode(), "Les hashCodes doivent être identiques pour les points égaux");
-        assertNotEquals(point1, point3, "Les points différents ne doivent pas être égaux");
+        assertEquals(point1, point2, "Identical points should be equal");
+        assertEquals(point1.hashCode(), point2.hashCode(), "hashCodes should be identical for equal points");
+        assertNotEquals(point1, point3, "Different points shouldn't be equal");
     }
 }
