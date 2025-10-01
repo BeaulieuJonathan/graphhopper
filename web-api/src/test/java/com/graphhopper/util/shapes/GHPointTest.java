@@ -16,9 +16,9 @@
  *  limitations under the License.
  */
 package com.graphhopper.util.shapes;
-
 import org.junit.jupiter.api.Test;
-
+import com.graphhopper.util.shapes.GHPoint;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -34,5 +34,35 @@ public class GHPointTest {
         assertFalse(instance.isValid());
         instance.lon = 1;
         assertTrue(instance.isValid());
+    }
+
+    @Test
+    public void testConstructorAndGetters() {
+        // Teste la création d'un GHPoint avec les coordonnées d'Oslo
+        GHPoint point = new GHPoint(59.9139, 10.7522);
+        assertEquals(59.9139, point.getLat(), 1e-6, "La latitude doit correspondre à celle d'Oslo");
+        assertEquals(10.7522, point.getLon(), 1e-6, "La longitude doit correspondre à celle d'Oslo");
+        assertTrue(point.isValid(), "Le point doit être valide");
+    }
+
+    @Test
+    public void testFromString() {
+        // Teste le parsing d'une chaîne en GHPoint avec les coordonnées d'Oslo
+        GHPoint point = GHPoint.fromString("59.9139,10.7522");
+        assertEquals(59.9139, point.getLat(), 1e-6, "La latitude doit être correctement parsée");
+        assertEquals(10.7522, point.getLon(), 1e-6, "La longitude doit être correctement parsée");
+        assertThrows(IllegalArgumentException.class, () -> GHPoint.fromString("invalid"),
+                "Une chaîne invalide doit lever une exception");
+    }
+
+    @Test
+    public void testEqualsAndHashCode() {
+        // Teste l'égalité et le hashCode entre deux GHPoint avec les coordonnées d'Oslo
+        GHPoint point1 = new GHPoint(59.9139, 10.7522);
+        GHPoint point2 = new GHPoint(59.9139, 10.7522);
+        GHPoint point3 = new GHPoint(51.5074, -0.1278); // Coordonnées de Londres pour contraste
+        assertEquals(point1, point2, "Les points identiques doivent être égaux");
+        assertEquals(point1.hashCode(), point2.hashCode(), "Les hashCodes doivent être identiques pour les points égaux");
+        assertNotEquals(point1, point3, "Les points différents ne doivent pas être égaux");
     }
 }
