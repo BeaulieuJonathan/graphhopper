@@ -34,6 +34,17 @@ public class PointListTest {
     }
 
     @Test
+    public void testSetElevationIn2DPointList() {
+        PointList liste = new PointList(10,false);
+
+        for (int i = 0; i < 10; i++) {
+            liste.add(i,i);
+        }
+
+        assertThrows(IllegalStateException.class, () -> {liste.setElevation(2, 42);});
+    }
+
+    @Test
     public void testClearList() {
         PointList liste = new PointList(10,true);
 
@@ -72,6 +83,20 @@ public class PointListTest {
         assertThrows(IllegalArgumentException.class, () -> {
             liste.trimToSize(42);
         });
+
+    }
+
+    @Test
+    public void reverse3DPointList() {
+        PointList liste = new PointList(10,true);
+
+        for (int i = 0; i < 10; i++) {
+            liste.add(i,i,i);
+        }
+
+        liste.reverse();
+
+        assertEquals(9, liste.getEle(0));
 
     }
 }
