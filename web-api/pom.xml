@@ -43,9 +43,6 @@
                     <targetClasses>
                         <param>com.graphhopper.util.PointList*</param>
                     </targetClasses>
-                    <targetTests>
-                        <param>com.graphhopper.util.PointList*</param>
-                    </targetTests>
                 </configuration>
                 <dependencies>
                 <dependency>
