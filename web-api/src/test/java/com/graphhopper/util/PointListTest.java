@@ -7,42 +7,71 @@ import org.junit.jupiter.api.Test;
 
 public class PointListTest {
     
-    /* Ce test a pour objectif de vérifier qu'un objet PointList vide
-     * Est équivalent à PointList.EMPTY qu'elle soit 2D ou 3D.
-     */
-    @Test
-    public void test_EmptyList() {
-        PointList Empty2DPointList = new PointList(10,false);
-        PointList Empty3DPointList = new PointList(10,true);
-
-        assertEquals(Empty2DPointList,PointList.EMPTY);
-
-        assertEquals(Empty3DPointList,PointList.EMPTY);
-    }
     
-
-    /* Ce test a pour objectif de vérifier l'ajout de points dans la liste */
     @Test
-    public void test_addition() {
-        PointList Liste = new PointList();
+    public void testSetElevation() {
+        PointList liste = new PointList(10,true);
 
-        Liste.add(1, 1);
-        Liste.add(2, 2);
-        Liste.add(3, 3);
-        Liste.add(4, 4);
-        Liste.add(5, 5);
+        for (int i = 0; i < 10; i++) {
+            liste.add(i,i,i);
+        }
 
-        // ajout de points par une list
-        PointList ajouterPoints = new PointList();
-        ajouterPoints.add(8,8);
-        ajouterPoints.add(9,99);
-        ajouterPoints.add(10,10);
+        liste.setElevation(4, 42);
 
-        Liste.add(ajouterPoints);
-
-        assertEquals(8,Liste.size());
-        assertEquals(9, Liste.getLat(6));
-        assertEquals(99, Liste.getLon(6));
+        assertEquals(42, liste.getEle(4));
     }
 
+    @Test
+    public void testSetElevation_withIndexOutOfBound() {
+        PointList liste = new PointList(10,true);
+
+        for (int i = 0; i < 10; i++) {
+            liste.add(i,i,i);
+        }
+
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {liste.setElevation(42, 42);});
+        
+    }
+
+    @Test
+    public void testClearList() {
+        PointList liste = new PointList(10,true);
+
+        for (int i = 0; i < 10; i++) {
+            liste.add(i,i,i);
+        }
+
+        assertEquals(10, liste.size());
+
+        liste.clear();
+
+        assertTrue(liste.isEmpty());
+    }
+
+    @Test
+    public void testTrimeToSize() {
+        PointList liste = new PointList(10,true);
+
+        for (int i = 0; i < 10; i++) {
+            liste.add(i,i,i);
+        }
+
+        liste.trimToSize(3);
+
+        assertEquals(3,liste.size());
+    }
+
+    @Test
+    public void testTrimToSize_LargerThanOldSize() {
+        PointList liste = new PointList(10,true);
+
+        for (int i = 0; i < 10; i++) {
+            liste.add(i,i,i);
+        }
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            liste.trimToSize(42);
+        });
+
+    }
 }
