@@ -110,15 +110,12 @@ public class PointListTest {
 
     @Test
     public void testWithJavaFaker() {
-        // Initialize Faker
         Faker faker = new Faker();
 
-        // Create 2D and 3D PointLists
         PointList pointList2D = new PointList(5, false);
         PointList pointList3D = new PointList(5, true);
         List<GHPoint> generatedPoints = new ArrayList<>();
 
-        // Generate 5 random points with Java Faker
         for (int i = 0; i < 5; i++) {
             double lat = faker.number().randomDouble(6, -90, 90);
             double lon = faker.number().randomDouble(6, -180, 180);
