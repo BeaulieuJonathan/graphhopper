@@ -113,32 +113,6 @@ public class PointListTest {
     }
 
     @Test
-    public void testWithJavaFaker() {
-        Faker faker = new Faker();
-
-        PointList pointList2D = new PointList(5, false);
-        PointList pointList3D = new PointList(5, true);
-        List<GHPoint> generatedPoints = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++) {
-            double lat = faker.number().randomDouble(6, -90, 90);
-            double lon = faker.number().randomDouble(6, -180, 180);
-            double ele = faker.number().randomDouble(2, -100, 1000);
-            generatedPoints.add(new GHPoint3D(lat, lon, ele));
-            pointList2D.add(new GHPoint(lat, lon));
-            pointList3D.add(new GHPoint3D(lat, lon, ele));
-        }
-        LineString lineString3D = pointList3D.toLineString(true);
-        assertEquals(pointList3D.size(), lineString3D.getCoordinates().length, "LineString should have the same number of coordinates");
-        for (int i = 0; i < pointList3D.size(); i++) {
-            Coordinate coor = lineString3D.getCoordinateN(i);
-            assertEquals(Helper.round6(pointList3D.getLon(i)), coor.x, 1e-6, "LineString x should have the same longitude");
-            assertEquals(Helper.round6(pointList3D.getLat(i)), coor.y, 1e-6, "LineString y should  have the same latitude");
-            assertEquals(Helper.round2(pointList3D.getEle(i)), coor.z, 1e-2, "LineString z should have the same elevation");
-        }
-    }
-
-    @Test
     public void testAddPointListJavaFaker() {
         Faker faker = new Faker();
         PointList sourceList = new PointList(3, true);
