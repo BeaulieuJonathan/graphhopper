@@ -14,14 +14,14 @@ import java.util.List;
 
 
 public class PointListTest {
-    
-    
+
+
     @Test
     public void testSetElevation() {
-        PointList liste = new PointList(10,true);
+        PointList liste = new PointList(10, true);
 
         for (int i = 0; i < 10; i++) {
-            liste.add(i,i,i);
+            liste.add(i, i, i);
         }
 
         liste.setElevation(4, 42);
@@ -31,33 +31,37 @@ public class PointListTest {
 
     @Test
     public void testSetElevation_withIndexOutOfBound() {
-        PointList liste = new PointList(10,true);
+        PointList liste = new PointList(10, true);
 
         for (int i = 0; i < 10; i++) {
-            liste.add(i,i,i);
+            liste.add(i, i, i);
         }
 
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {liste.setElevation(42, 42);});
-        
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            liste.setElevation(42, 42);
+        });
+
     }
 
     @Test
     public void testSetElevationIn2DPointList() {
-        PointList liste = new PointList(10,false);
+        PointList liste = new PointList(10, false);
 
         for (int i = 0; i < 10; i++) {
-            liste.add(i,i);
+            liste.add(i, i);
         }
 
-        assertThrows(IllegalStateException.class, () -> {liste.setElevation(2, 42);});
+        assertThrows(IllegalStateException.class, () -> {
+            liste.setElevation(2, 42);
+        });
     }
 
     @Test
     public void testClearList() {
-        PointList liste = new PointList(10,true);
+        PointList liste = new PointList(10, true);
 
         for (int i = 0; i < 10; i++) {
-            liste.add(i,i,i);
+            liste.add(i, i, i);
         }
 
         assertEquals(10, liste.size());
@@ -69,23 +73,23 @@ public class PointListTest {
 
     @Test
     public void testTrimeToSize() {
-        PointList liste = new PointList(10,true);
+        PointList liste = new PointList(10, true);
 
         for (int i = 0; i < 10; i++) {
-            liste.add(i,i,i);
+            liste.add(i, i, i);
         }
 
         liste.trimToSize(3);
 
-        assertEquals(3,liste.size());
+        assertEquals(3, liste.size());
     }
 
     @Test
     public void testTrimToSize_LargerThanOldSize() {
-        PointList liste = new PointList(10,true);
+        PointList liste = new PointList(10, true);
 
         for (int i = 0; i < 10; i++) {
-            liste.add(i,i,i);
+            liste.add(i, i, i);
         }
 
         assertThrows(IllegalArgumentException.class, () -> {
@@ -96,10 +100,10 @@ public class PointListTest {
 
     @Test
     public void reverse3DPointList() {
-        PointList liste = new PointList(10,true);
+        PointList liste = new PointList(10, true);
 
         for (int i = 0; i < 10; i++) {
-            liste.add(i,i,i);
+            liste.add(i, i, i);
         }
 
         liste.reverse();
@@ -157,4 +161,4 @@ public class PointListTest {
             assertEquals(eles[i], targetList.getEle(i), 1e-2, "Elevation should match");
         }
     }
-
+}
