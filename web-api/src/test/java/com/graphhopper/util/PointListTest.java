@@ -157,4 +157,4 @@ public class PointListTest {
             assertEquals(eles[i], targetList.getEle(i), 1e-2, "Elevation should match");
         }
     }
-}
+
