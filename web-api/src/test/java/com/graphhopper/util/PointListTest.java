@@ -138,3 +138,27 @@ public class PointListTest {
         }
     }
 
+    @Test
+    public void testAddPointListJavaFaker() {
+        Faker faker = new Faker();
+        PointList sourceList = new PointList(3, true);
+
+        double[] lats = new double[3], lons = new double[3], eles = new double[3];
+        for (int i = 0; i < 3; i++) {
+            lats[i] = faker.number().randomDouble(6, -90, 90);
+            lons[i] = faker.number().randomDouble(6, -180, 180);
+            eles[i] = faker.number().randomDouble(2, -100, 1000);
+            sourceList.add(new GHPoint3D(lats[i], lons[i], eles[i]));
+        }
+
+        PointList targetList = new PointList(3, true);
+        targetList.add(sourceList);
+
+        assertEquals(3, targetList.size(), "Target list should have 3 points");
+        for (int i = 0; i < 3; i++) {
+            assertEquals(lats[i], targetList.getLat(i), 1e-6, "Latitude should match");
+            assertEquals(lons[i], targetList.getLon(i), 1e-6, "Longitude should match");
+            assertEquals(eles[i], targetList.getEle(i), 1e-2, "Elevation should match");
+        }
+    }
+}
