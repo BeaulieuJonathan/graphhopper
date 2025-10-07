@@ -44,12 +44,33 @@ Pour cela, nous créons d'abord un objet PointList et nous y ajoutons 10 éléme
 
 
 ## Analyse de mutation avec PiTest
+Rapport complet disponible [ici](../../../../../../target/pit-reports/index.html)
 ### Rapport avant changements
 ![Rapport avant tests](./resources/PitTest_Avant.png)
 ### Rapport après ajout des tests
 ![Rapport avant tests](./resources/PitTest_Apres.png)
 ### Mutants trouvés
+Le nombre de mutants trouvés a passé de 43 à 61, soit 18 nouveaux mutants éliminés.
 
+5 Mutants ont été trouvés par les appels de la méthode `add()` dans le test `testAddPointListJavaFaker()`
+
+![Tests](./resources/PitTest_Mutants_Avant_3.png)
+![AvecTests](./resources/PitTest_Mutants_Apres_3.png)
+
+Les tests sur la méthode `setElevation()` ont trouvés 3 Mutants (lignes 287 et 289) et ceux sur `reverse()` en ont trouvé 7 (Lignes 297-299 et 309)
+
+![Tests](./resources/PitTest_Mutants_Avant_1.png)
+![AvecTests](./resources/PitTest_Mutants_Apres_1.png)
+
+
+`trimToSize()` a trouvé 1 mutant (Ligne 324)
+
+![Tests](./resources/PitTest_Mutants_Avant_2.png)
+![AvecTests](./resources/PitTest_Mutants_Apres_2.png)
+
+`clear()` a trouvé 2 mutants (Ligne 257)
+![Tests](./resources/PitTest_Mutants_Avant_4.png)
+![AvecTests](./resources/PitTest_Mutants_Apres_4.png)
 
 ## Java-Faker
 - Le test "testAddPointListJavaFaker" se veut simple et évite au maximum les dépendances 
