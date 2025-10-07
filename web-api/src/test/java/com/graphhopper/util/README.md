@@ -73,6 +73,7 @@ Les tests sur la méthode `setElevation()` ont trouvés 3 Mutants (lignes 287 et
 ![AvecTests](./resources/PitTest_Mutants_Apres_4.png)
 
 ## Java-Faker
+### [`testAddPointListJavaFaker()`](./PointListTest.java)
 - Le test "testAddPointListJavaFaker" se veut simple et évite au maximum les dépendances 
 externes pour maximiser l'encapsulation.
 - Nous créons d'abord une `PointList` source avec une capacité initiale de 3 points 3D et 3 tableaux
