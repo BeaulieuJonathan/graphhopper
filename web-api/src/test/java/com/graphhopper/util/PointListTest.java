@@ -3,14 +3,7 @@ package com.graphhopper.util;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.github.javafaker.Faker;
-import com.graphhopper.util.shapes.GHPoint;
-import com.graphhopper.util.shapes.GHPoint3D;
 import org.junit.jupiter.api.Test;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.LineString;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class PointListTest {
@@ -20,7 +13,7 @@ public class PointListTest {
     public void testSetElevation() {
         PointList liste = new PointList(10, true);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             liste.add(i, i, i);
         }
 
@@ -33,12 +26,12 @@ public class PointListTest {
     public void testSetElevation_withIndexOutOfBound() {
         PointList liste = new PointList(10, true);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             liste.add(i, i, i);
         }
 
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            liste.setElevation(42, 42);
+            liste.setElevation(5, 42);
         });
 
     }
@@ -69,6 +62,7 @@ public class PointListTest {
         liste.clear();
 
         assertTrue(liste.isEmpty());
+        assertEquals(0, liste.size());
     }
 
     @Test
@@ -82,6 +76,9 @@ public class PointListTest {
         liste.trimToSize(3);
 
         assertEquals(3, liste.size());
+        for (int i = 0; i<3; i++) {
+            assertEquals(i, liste.getLat(i));
+        }
     }
 
     @Test
@@ -108,7 +105,13 @@ public class PointListTest {
 
         liste.reverse();
 
-        assertEquals(9, liste.getEle(0));
+        int valeur = liste.size();
+        for (int i = 0; i < liste.size(); i++) {
+            valeur--;
+            assertEquals(valeur, liste.getLat(i), 1e-6);
+            assertEquals(valeur, liste.getLon(i), 1e-6);
+            assertEquals(valeur, liste.getEle(i), 1e-6);
+        } 
 
     }
 
@@ -122,7 +125,7 @@ public class PointListTest {
             lats[i] = faker.number().randomDouble(6, -90, 90);
             lons[i] = faker.number().randomDouble(6, -180, 180);
             eles[i] = faker.number().randomDouble(2, -100, 1000);
-            sourceList.add(new GHPoint3D(lats[i], lons[i], eles[i]));
+            sourceList.add(lats[i], lons[i], eles[i]);
         }
 
         PointList targetList = new PointList(3, true);

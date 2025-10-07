@@ -2,16 +2,45 @@
 - Jonathan Beaulieu
 - Joaquim Sandler-Soussy
 
-## Classes choisies
-- [PintList.java](../../../../../main/java/com/graphhopper/util/PointList.java)
-### [`reverse()`](./PointListTest.java)
-#### Intention:
-
-#### Choix des données
-
-#### Oracle?
+## Classe choisie
+Nous avons choisi de tester la classe [PointList.java](../../../../../main/java/com/graphhopper/util/PointList.java) dans le module web-api. Les tests sont dans [PointListTest.java](./PointListTest.java)
 
 ## Tests effectuées
+### [`testSetElevation()`](./PointListTest.java)
+Ce test a pour objectif de vérifier que la méthode `setElevation()` changement correctement la valeur à l'index mentionné.
+Pour ce faire, nous avons initialisée une liste et on y a ajouté 5 éléments. Ensuite, nous avons changé la valeur d'un des points et vérifié que la valeur a bien été modifié avec l'oracle.
+
+### [`testSetElevation_withIndexOutOfBound()`](./PointListTest.java)
+Ce test vérifie qu'une exception de type `ArrayIndexOutOfBoundException` est levée si la méthode `setElevation()` est appelée avec un index supérieur au nombre d'éléments.
+
+Nous avons initialisée une liste de 5 éléments, puis tenté de changer l'élévation du point à l'index 5 pour assurer qu'il n'y a pas de "off by one errors".
+
+
+### [`testSetElevationIn2DPointList()`](./PointListTest.java)
+Ce test s'assure qu'une exception de type `IllegaleStateException` est levée si la liste à laquelle on souhaite ajuster l'élévation est en 2D.
+
+Pour cela, nous avons créé une liste de 10 éléments avec le paramètre `is3D` à `false`. Ensuite nous utilisons un oracle pour vérifier que l'erreur est lancé si la méthode est appelée sur un point (à un index valide).
+
+### [`testClearList()`](./PointListTest.java)
+Ce test a comme objectif de s'assurer qu'une liste est vidée après l'appel de la méthode `clearList()`.
+
+Nous avons instancié une liste et ajoutés 10 éléments. Puis, nous avons assurer que la liste est bien de taille 10 avant d'appeler la méthode testé. Puis un oracle vérifique que la liste est vide.
+
+### [`testTrimeToSize()`](./PointListTest.java)
+Ce test vise à s'assurer qu'un objet PointList est bien réduit à la taille indiqué lorsque la méthode `trimToSize()` est appelée.
+
+Nous avons instancié une liste ajouté 10 points et appelé la méthode sous test pour la réduire à trois. Par la suite, nous avons vérifié que la taille a bien été changée.
+
+### [`testTrimToSize_LargerThanOldSize()`](./PointListTest.java)
+Ce test vérifie que le cas limite où on tente de tailler la liste une taille plus grande que l'originale.
+
+Nous créons une liste, puis appelons la méthode sous test en s'attendant à ce qu'une exception de type `IllegalArgumentException` soit levée.
+
+
+### [`reverse3DPointList()`](./PointListTest.java)
+Ce test vérifie que les éléments d'un objet PointList sont bien inversés lors de l'appel à `reverse()`.
+
+Pour cela, nous créons d'abord un objet PointList et nous y ajoutons 10 éléments avec des valeurs de départ égale à l'index pour la latitude, la longitude et l'élévation, afin de pouvoir facilement comparer les résultats. Nous appelons ensuite la méthode sous test, puis nous comparons les valeurs pour s'assurer qu'elles sont tous inversé correctement.
 
 
 ## Analyse de mutation avec PiTest
@@ -37,16 +66,3 @@ tableaux contenant les lat, lon et ele de base.
 - Les tableaux lats, lons, eles garantissent que les assertions se basent sur les valeurs d’entrée 
 originales, pas l’implémentation de PointList.
 
-## 
-
-
-# Template
-(à retirer avant la remise)
-```
-### [Nom du test](URL)
-#### Intention:
-
-#### Choix des données
-
-#### Oracle
-```
