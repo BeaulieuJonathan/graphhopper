@@ -44,7 +44,6 @@ Pour cela, nous créons d'abord un objet PointList et nous y ajoutons 10 éléme
 
 
 ## Analyse de mutation avec PiTest
-Rapport complet disponible [ici](../../../../../../target/pit-reports/index.html)
 ### Rapport avant changements
 ![Rapport avant tests](./resources/PitTest_Avant.png)
 ### Rapport après ajout des tests
@@ -53,22 +52,48 @@ Rapport complet disponible [ici](../../../../../../target/pit-reports/index.html
 Le nombre de mutants trouvés a passé de 43 à 61, soit 18 nouveaux mutants éliminés.
 
 5 Mutants ont été trouvés par les appels de la méthode `add()` dans le test `testAddPointListJavaFaker()`
++ 234: Le mutant est trouvé en vérifiant que la taille de la liste et bien celle attendue.
++ 236
+    + 1: Changer la taille de la boucle "for" revient à mettre moins que le nombre de point attendu ce qui est trouvé lors de la vérification de chaque point de la liste.
+    + 2: Inverser le conditionnel cause également un changement dans le nombre de variable ajouté dans la liste.
++ 237: Changer l'addition par une soustraction cause les mauvaises valeurs à être ajouté (ou même un ArrayOutOfBoundException)
++ 240: La négation inversée à cette ligne prévenait d'ajouter les valeurs pour l'élévation dans la liste.
 
 ![Tests](./resources/PitTest_Mutants_Avant_3.png)
 ![AvecTests](./resources/PitTest_Mutants_Apres_3.png)
 
+---
+
 Les tests sur la méthode `setElevation()` ont trouvés 3 Mutants (lignes 287 et 289) et ceux sur `reverse()` en ont trouvé 7 (Lignes 297-299 et 309)
+
++ 287
+    + 1: Le cas est trouvé en attendant une exception, mais elle n'est pas retourné à l'éxécution dans `testSetElevation_withOutOfBound()`
+    + 2: La négation cause la levée de l'exception lorsqu'elle n'était pas attendue.
++ 289: La négation retourne une exception non attendue par le test.
++ 297: Changer pour une multiplication affecte l'index des valeurs changé dans le tableau. Cela cause soit une `ArrayOutOfBoundException` ou que les valeurs soient mal placées dans le tableau. Dans les deux cas, les assertions avec les valeurs attendu previenne le mutant de passer.
++ 298
+    + 1,2,3: Les trois mutants sur cette ligne affectent tous le comportement de la boucle for et sont détectés de la même façon que la ligne 297.
++ 299
+    + 1,2: Idem que 297 et 298. l'indice pour chager les valeurs du tableau est altéré et détecté.
++ 309: L'inversion de la valeur ici prévient les valeurs d'élévation d'être changé dans le tableau. Cela est détecté lors de l'assertion des valeurs de l'élévation dans le test.
 
 ![Tests](./resources/PitTest_Mutants_Avant_1.png)
 ![AvecTests](./resources/PitTest_Mutants_Apres_1.png)
 
-
+---
 `trimToSize()` a trouvé 1 mutant (Ligne 324)
++ 324: L'inversion de la valeur booléenne permet à la méthode de continuer lorsque le test s'attendait à une exception alors il échoue.
 
 ![Tests](./resources/PitTest_Mutants_Avant_2.png)
 ![AvecTests](./resources/PitTest_Mutants_Apres_2.png)
 
+---
+
 `clear()` a trouvé 2 mutants (Ligne 257)
++ 257
+    + 1: Changer la valeur de retoure par `false`, mais le test attendait `true`.
+    + 2: Inverser la condition dans ce cas cause le même résultat que 257.1.
+
 ![Tests](./resources/PitTest_Mutants_Avant_4.png)
 ![AvecTests](./resources/PitTest_Mutants_Apres_4.png)
 

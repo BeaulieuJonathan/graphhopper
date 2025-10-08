@@ -43,5 +43,3 @@ local.properties
 .DS_Store
 /graph-cache
 package-lock.json
-!/web-api/target/pit-reports/*
-!/web-api/target/pit-reports/com.graphhopper.util/*
