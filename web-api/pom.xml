@@ -43,6 +43,11 @@
                     <targetClasses>
                         <param>com.graphhopper.util.PointList*</param>
                     </targetClasses>
+                    <outputFormats>
+                        <outputFormat>CSV</outputFormat>
+                        <outputFormat>XML</outputFormat>
+                        <outputFormat>HTML</outputFormat>
+                    </outputFormats>
                 </configuration>
                 <dependencies>
                 <dependency>
