@@ -50,8 +50,8 @@ jobs:
         run: mvn -f ./web-api test-compile org.pitest:pitest-maven:mutationCoverage
       - name: Count mutations
         run: |
-        a=$(grep -c -e "KILLED" web-api/target/pit-reports/mutations.csv)
-        b=$(grep -ce . web-api/target/pit-reports/mutations.csv)
-        echo ${{steps.oldScore.killedMutants}}/${{steps.oldScore.totalMutants}}
-        echo $a/$b
+          a=$(grep -c -e "KILLED" web-api/target/pit-reports/mutations.csv)
+          b=$(grep -ce . web-api/target/pit-reports/mutations.csv)
+          echo ${{steps.oldScore.killedMutants}}/${{steps.oldScore.totalMutants}}
+          echo $a/$b
 
