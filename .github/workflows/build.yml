@@ -41,7 +41,7 @@ jobs:
           path: web-api/target/pit-reports
           key: ${{ runner.os }}-pitest-${{ hashFiles('**/pom.xml') }}
       - name: Calculate Mutation Score
-        if: steps.mutations.outputs.cach-hit == 'true'
+        if: steps.mutations.outputs.cache-hit == 'true'
         id: oldScore
         run: |
           killedMutants=$(grep -e "KILLED" -c web-api/target/pit-reports/mutations.csv)
