@@ -37,7 +37,7 @@ jobs:
       - name: Cache mutations
         uses: actions/cache/restore@v4
         with:
-          path: web-api/target/pit-reports/mutations.csv
+          path: web-api/target/pit-reports
           key: ${{ runner.os }}-pitest-${{ hashFiles('**/pom.xml') }}
       - name: Calculate Mutation Score
         id: oldScore
