@@ -35,7 +35,7 @@ jobs:
           restore-keys: |
             ${{ runner.os}}-node_modules-
       - name: Cache mutations
-        uses: actions/cache/restore@v4
+        uses: actions/cache@v4
         with:
           path: web-api/target/pit-reports
           key: ${{ runner.os }}-pitest-${{ hashFiles('**/pom.xml') }}
