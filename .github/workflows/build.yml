@@ -34,6 +34,24 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/pom.xml', '**/package.json') }}
           restore-keys: |
             ${{ runner.os}}-node_modules-
+      - name: Cache mutations
+        uses: actions/cache/restore@v4
+        with:
+          path: web-api/target/pit-reports/mutations.csv
+          key: ${{ runner.os }}-pitest-${{ hashFiles('**/pom.xml') }}
+      - name: Calculate Mutation Score
+        id: oldScore
+        run: |
+          killedMutants=$(grep -e "KILLED" -c web-api/target/pit-reports/mutations.csv)
+          totalMutants=$(grep -ce . web-api/target/pit-reports/mutations.csv)
       - name: Build ${{ matrix.java-version }}
         run: mvn -B clean test
+      - name: Run Maven Tests ${{ matrix.java-version }} in web-api
+        run: mvn -f ./web-api test-compile org.pitest:pitest-maven:mutationCoverage
+      - name: Count mutations
+        run: |
+        a=$(grep -c -e "KILLED" web-api/target/pit-reports/mutations.csv)
+        b=$(grep -ce . web-api/target/pit-reports/mutations.csv)
+        echo ${{steps.oldScore.killedMutants}}/${{steps.oldScore.totalMutants}}
+        echo $a/$b
 
