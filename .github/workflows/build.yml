@@ -35,11 +35,13 @@ jobs:
           restore-keys: |
             ${{ runner.os}}-node_modules-
       - name: Cache mutations
+        id: mutations
         uses: actions/cache@v4
         with:
           path: web-api/target/pit-reports
           key: ${{ runner.os }}-pitest-${{ hashFiles('**/pom.xml') }}
       - name: Calculate Mutation Score
+        if: steps.mutations.outputs.cach-hit == 'true'
         id: oldScore
         run: |
           killedMutants=$(grep -e "KILLED" -c web-api/target/pit-reports/mutations.csv)
