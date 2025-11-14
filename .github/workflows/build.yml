@@ -51,9 +51,14 @@ jobs:
       - name: Run Maven Tests ${{ matrix.java-version }} in web-api
         run: mvn -f ./web-api test-compile org.pitest:pitest-maven:mutationCoverage
       - name: Count mutations
+        if: steps.mutations.outputs.cache-hit == 'true'
         run: |
           a=$(grep -c -e "KILLED" web-api/target/pit-reports/mutations.csv)
           b=$(grep -ce . web-api/target/pit-reports/mutations.csv)
           echo ${{steps.oldScore.killedMutants}}/${{steps.oldScore.totalMutants}}
           echo $a/$b
+          
+          if [ $($b * ${{steps.oldScore.killedMutants}} ) -gt $( $a * ${{steps.oldScore.totalMutants}}) ]; then
+            exit 1
+          fi
 
