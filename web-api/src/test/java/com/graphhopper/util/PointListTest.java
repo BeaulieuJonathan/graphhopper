@@ -148,7 +148,7 @@ public class PointListTest {
     }
 
     @Test
-    public void testPointListWithMockedGHPoint() {
+    public void testPointListWithMockedPointAccess() {
         PointAccess point = mock(PointAccess.class);
 
         when(point.getLat(0)).thenReturn(42.0);
