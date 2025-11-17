@@ -10,6 +10,11 @@ public class PointListTest {
 
 
     @Test
+    public void willFail() {
+        assert(false);
+    }
+
+    @Test
     public void testSetElevation() {
         PointList liste = new PointList(10, true);
 
