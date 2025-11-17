@@ -3,6 +3,9 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      killedMutans: 0
+      totalMutants: 1
     strategy:
       fail-fast: false
       matrix:
@@ -47,19 +50,21 @@ jobs:
           killedMutants=$(grep -e "KILLED" -c web-api/target/pit-reports/mutations.csv)
           totalMutants=$(grep -ce . web-api/target/pit-reports/mutations.csv)
           echo $killedMutants/$totalMutants
+          echo "killedMutants=$killedMutants" >> $GITHUB_OUTPUT
+          echo "totalMutants=$totalMutants" >> $GITHUB_OUTPUT
       - name: Build ${{ matrix.java-version }}
         run: mvn -B clean test
-      - name: Run Maven Tests ${{ matrix.java-version }} in web-api
+      - name: Mutation Coverage ${{ matrix.java-version }} in web-api
         run: mvn -f ./web-api test-compile org.pitest:pitest-maven:mutationCoverage
       - name: Compare mutations
         if: steps.mutations.outputs.cache-hit == 'true'
         run: |
           a=$(grep -c -e "KILLED" web-api/target/pit-reports/mutations.csv)
           b=$(grep -ce . web-api/target/pit-reports/mutations.csv)
-          echo ${{ steps.oldScore.killedMutants }}/${{ steps.oldScore.totalMutants }}
+          echo ${{ steps.oldScore.outputs.killedMutants }}/${{ steps.oldScore.outputs.totalMutants }}
           echo $a/$b
           
-          if [ $($b * ${{ steps.oldScore.killedMutants }} ) -gt $( $a * ${{ steps.oldScore.totalMutants }}) ]; then
+          if [ $($b * ${{ steps.oldScore.outputs.killedMutants }} ) -gt $( $a * ${{ steps.oldScore.outputs.totalMutants }}) ]; then
             exit 1
           fi
 
