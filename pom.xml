@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.graphhopper</groupId>
@@ -18,7 +19,8 @@
 
         <maven.compiler.target>17</maven.compiler.target>
 
-        <!-- We always had this disabled as it is disabled by default in debian JDK builds, but when we
+        <!-- We always had this disabled as it is disabled by default in debian JDK builds, but when
+        we
              switched to another JDK on travis it was enabled implicitly. Our javadocs are not ready for this
              so we disable it explicitly now -->
         <doclint>none</doclint>
@@ -175,10 +177,34 @@
             <artifactId>javafaker</artifactId>
             <version>1.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.20.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>properties</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <argLine>@{argLine} -javaagent:${org.mockito:mockito-core:jar}</argLine>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -349,7 +375,8 @@
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <version>3.4.1</version>
                         <configuration>
-                            <!-- note that we disable doclint via properties globally, using <doclint>none</doclint> did not seem to work -->
+                            <!-- note that we disable doclint via properties globally, using
+                            <doclint>none</doclint> did not seem to work -->
                             <quiet>true</quiet>
                         </configuration>
                         <executions>

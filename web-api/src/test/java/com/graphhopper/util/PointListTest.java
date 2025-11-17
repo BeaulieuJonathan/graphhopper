@@ -1,8 +1,11 @@
 package com.graphhopper.util;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import com.github.javafaker.Faker;
+import com.graphhopper.util.shapes.GHPoint;
+
 import org.junit.jupiter.api.Test;
 
 
@@ -142,5 +145,21 @@ public class PointListTest {
             assertEquals(lons[i], targetList.getLon(i), 1e-6, "Longitude should match");
             assertEquals(eles[i], targetList.getEle(i), 1e-2, "Elevation should match");
         }
+    }
+
+    @Test
+    public void testPointListWithMockedGHPoint() {
+        PointAccess point = mock(PointAccess.class);
+
+        when(point.getLat(0)).thenReturn(42.0);
+        when(point.getLon(0)).thenReturn(67.0);
+
+        PointList testedList = new PointList(3,false);
+
+        testedList.add(point,0);
+
+        assertEquals(42.0,testedList.getLat(0));
+        assertEquals(67.0,testedList.getLon(0));
+        
     }
 }
