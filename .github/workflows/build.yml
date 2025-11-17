@@ -56,7 +56,7 @@ jobs:
         run: |
           a=$(grep -c -e "KILLED" web-api/target/pit-reports/mutations.csv)
           b=$(grep -ce . web-api/target/pit-reports/mutations.csv)
-          echo ${{ steps.oldScore.killedMutants }}/${{ steps.oldScore.totalMutants} }
+          echo ${{ steps.oldScore.killedMutants }}/${{ steps.oldScore.totalMutants }}
           echo $a/$b
           
           if [ $($b * ${{ steps.oldScore.killedMutants }} ) -gt $( $a * ${{ steps.oldScore.totalMutants }}) ]; then
