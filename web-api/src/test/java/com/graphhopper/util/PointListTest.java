@@ -11,11 +11,7 @@ import org.junit.jupiter.api.Test;
 
 public class PointListTest {
 
-
-    @Test
-    public void willFail() {
-        assert(false);
-    }
+    
 
     @Test
     public void testSetElevation() {

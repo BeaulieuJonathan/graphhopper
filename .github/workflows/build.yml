@@ -73,7 +73,7 @@ jobs:
         run: |
           failed=${{ steps.report.outputs.failed }}
           if [ $failed -gt 0 ]; then
-            echo "It seems some test Failed! See [This link](https://www.youtube.com/watch?v=dQw4w9WgXcQ) may provide additionnal informations" >> $GITHUB_STEP_SUMMARY
+            echo "It seems some test Failed! [This link](https://www.youtube.com/watch?v=dQw4w9WgXcQ) may provide additionnal informations." >> $GITHUB_STEP_SUMMARY
           fi
         
       - name: Compare mutations
