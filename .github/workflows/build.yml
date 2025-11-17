@@ -3,9 +3,6 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      killedMutans: 0
-      totalMutants: 1
     strategy:
       fail-fast: false
       matrix:
@@ -64,7 +61,7 @@ jobs:
           echo ${{ steps.oldScore.outputs.killedMutants }}/${{ steps.oldScore.outputs.totalMutants }}
           echo $a/$b
           
-          if [ $($b * ${{ steps.oldScore.outputs.killedMutants }} ) -gt $( $a * ${{ steps.oldScore.outputs.totalMutants }}) ]; then
+          if [ $(($b * ${{ steps.oldScore.outputs.killedMutants }} )) -gt $(( $a * ${{ steps.oldScore.outputs.totalMutants }})) ]; then
             exit 1
           fi
 
