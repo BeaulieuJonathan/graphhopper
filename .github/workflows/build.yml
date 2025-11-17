@@ -13,6 +13,7 @@ jobs:
         with:
           java-version: ${{ matrix.java-version }}
           distribution: temurin
+          
       - name: Cache Maven artifacts
         uses: actions/cache@v4
         with:
@@ -20,6 +21,7 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+            
       - name: Cache node
         uses: actions/cache@v4
         with:
@@ -27,6 +29,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os}}-node-
+            
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
@@ -34,12 +37,14 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/pom.xml', '**/package.json') }}
           restore-keys: |
             ${{ runner.os}}-node_modules-
+            
       - name: Cache mutations
         id: mutations
         uses: actions/cache@v4
         with:
           path: web-api/target/pit-reports
           key: ${{ runner.os }}-pitest-${{ hashFiles('**/pom.xml') }}
+          
       - name: Calculate Mutation Score
         if: steps.mutations.outputs.cache-hit == 'true'
         id: oldScore
@@ -49,10 +54,28 @@ jobs:
           echo $killedMutants/$totalMutants
           echo "killedMutants=$killedMutants" >> $GITHUB_OUTPUT
           echo "totalMutants=$totalMutants" >> $GITHUB_OUTPUT
+          
       - name: Build ${{ matrix.java-version }}
         run: mvn -B clean test
+        
       - name: Mutation Coverage ${{ matrix.java-version }} in web-api
         run: mvn -f ./web-api test-compile org.pitest:pitest-maven:mutationCoverage
+
+      - name: Make report
+        id: report
+        uses: test-summary/action@v2
+        with:
+          paths: "**/target/surefire-reports/TEST-*.xml"
+        if: always()
+
+      - name: Special Effect If failed tests
+        if: always()
+        run: |
+          failed=${{ steps.report.outputs.failed }}
+          if [ $failed -gt 0 ]; then
+            echo "It seems some test Failed! See [This link](https://www.youtube.com/watch?v=dQw4w9WgXcQ) may provide additionnal informations" >> $GITHUB_STEP_SUMMARY
+          fi
+        
       - name: Compare mutations
         if: steps.mutations.outputs.cache-hit == 'true'
         run: |
