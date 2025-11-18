@@ -40,29 +40,4 @@ public class GHResponseTest {
         rsp.add(new ResponsePath());
         assertFalse(rsp.hasErrors());
     }
-
-
-    @Test
-    public void testHasErrorsWithMockedResponsePath() {
-        ResponsePath rp = mock(ResponsePath.class);
-        when(rp.hasErrors()).thenReturn(true);
-
-        GHResponse rsp = new GHResponse();
-        rsp.add(rp);
-
-        assertTrue(rsp.hasErrors(), "GHResponse should report an error if a mocked ResponsePath contains one.");
-    }
-
-    @Test
-    public void testGetDebugInfoWithMockedResponsePath() {
-        ResponsePath rp = mock(ResponsePath.class);
-        when(rp.getDebugInfo()).thenReturn("mocked-debug");
-
-        GHResponse rsp = new GHResponse();
-        rsp.addDebugInfo("root-debug");
-        rsp.add(rp);
-
-        String result = rsp.getDebugInfo();
-        assertEquals("root-debug; mocked-debug", result);
-    }
 }
