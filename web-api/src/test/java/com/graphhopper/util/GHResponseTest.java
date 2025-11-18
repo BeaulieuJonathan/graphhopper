@@ -40,4 +40,15 @@ public class GHResponseTest {
         rsp.add(new ResponsePath());
         assertFalse(rsp.hasErrors());
     }
+
+    void mockitoTest_HasErrorsResponsePath() {
+        GHResponse response = new GHResponse();
+        ResponsePath path = mock(ResponsePath.class);
+
+        when(path.hasErrors()).thenReturn(true);
+        response.add(path);
+
+        assertTrue(response.hasErrors());
+    }
+
 }
