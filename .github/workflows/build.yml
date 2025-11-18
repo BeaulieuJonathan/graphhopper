@@ -43,7 +43,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: web-api/target/pit-reports
-          key: ${{ runner.os }}-pitest
+          key: ${{ runner.os }}-pitest-${{ matrix.java-version }}
           
       - name: Calculate Mutation Score
         if: steps.mutations.outputs.cache-hit == 'true'
@@ -79,9 +79,12 @@ jobs:
         if: steps.mutations.outputs.cache-hit == 'true'
         run: |
           newKilledScore=$(grep -c -e "KILLED" web-api/target/pit-reports/mutations.csv)
-          newKilledTotal=$(grep -ce . web-api/target/pit-reports/mutations.csv)
+          newMutantsTotal=$(grep -ce . web-api/target/pit-reports/mutations.csv)
           
-          if [ $(($newKilledTotal * ${{ steps.oldScore.outputs.killedMutants }} )) -gt $(( $newKilledScore * ${{ steps.oldScore.outputs.totalMutants }})) ]; then
+          if [ $(($newMutantsTotal * ${{ steps.oldScore.outputs.killedMutants }} )) -gt $(( $newKilledScore * ${{ steps.oldScore.outputs.totalMutants }})) ]; then
+            echo "Job failed because mutation coveraged decreased." >> $GITHUB_STEP_SUMMARY
+            echo "Previous score: ${{ steps.oldScore.outputs.killedMutants }}/${{ steps.oldScore.outputs.totalMutants }}"
+            echo "New score: $newKilledScore/$newMutantsTotal" >> $GITHUB_STEP_SUMMARY
             exit 1
           fi
 
