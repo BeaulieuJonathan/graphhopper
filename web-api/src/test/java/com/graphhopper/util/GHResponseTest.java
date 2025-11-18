@@ -41,6 +41,7 @@ public class GHResponseTest {
         assertFalse(rsp.hasErrors());
     }
 
+
     @Test
     public void testHasErrorsWithMockedResponsePath() {
         ResponsePath rp = mock(ResponsePath.class);

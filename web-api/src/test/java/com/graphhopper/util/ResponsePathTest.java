@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ResponsePathTest {
 
     @Test
+
     public void testHasErrorsWithMockedThrowable() {
         Throwable t = mock(Throwable.class);
 
