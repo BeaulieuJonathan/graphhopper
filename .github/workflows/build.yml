@@ -43,7 +43,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: web-api/target/pit-reports
-          key: ${{ runner.os }}-pitest-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-pitest-${{ matrix.java-version }}
           
       - name: Calculate Mutation Score
         if: steps.mutations.outputs.cache-hit == 'true'
@@ -51,7 +51,6 @@ jobs:
         run: |
           killedMutants=$(grep -e "KILLED" -c web-api/target/pit-reports/mutations.csv)
           totalMutants=$(grep -ce . web-api/target/pit-reports/mutations.csv)
-          echo $killedMutants/$totalMutants
           echo "killedMutants=$killedMutants" >> $GITHUB_OUTPUT
           echo "totalMutants=$totalMutants" >> $GITHUB_OUTPUT
           
@@ -79,12 +78,13 @@ jobs:
       - name: Compare mutations
         if: steps.mutations.outputs.cache-hit == 'true'
         run: |
-          a=$(grep -c -e "KILLED" web-api/target/pit-reports/mutations.csv)
-          b=$(grep -ce . web-api/target/pit-reports/mutations.csv)
-          echo ${{ steps.oldScore.outputs.killedMutants }}/${{ steps.oldScore.outputs.totalMutants }}
-          echo $a/$b
+          newKilledScore=$(grep -c -e "KILLED" web-api/target/pit-reports/mutations.csv)
+          newMutantsTotal=$(grep -ce . web-api/target/pit-reports/mutations.csv)
           
-          if [ $(($b * ${{ steps.oldScore.outputs.killedMutants }} )) -gt $(( $a * ${{ steps.oldScore.outputs.totalMutants }})) ]; then
+          if [ $(($newMutantsTotal * ${{ steps.oldScore.outputs.killedMutants }} )) -gt $(( $newKilledScore * ${{ steps.oldScore.outputs.totalMutants }})) ]; then
+            echo "Job failed because mutation coveraged decreased." >> $GITHUB_STEP_SUMMARY
+            echo "Previous score: ${{ steps.oldScore.outputs.killedMutants }}/${{ steps.oldScore.outputs.totalMutants }}"
+            echo "New score: $newKilledScore/$newMutantsTotal" >> $GITHUB_STEP_SUMMARY
             exit 1
           fi
 
