@@ -108,32 +108,32 @@ Si c'est le cas on termine l'exécution avec `exit 1` et puisque dénominateur e
 Ajout de 2 tests mockito pour la classe GHResponse et 1 pour la classe PointList.
 
 ```java
-    @Test
-    public void mockitoTest_HasErrorsResponsePath() {
-        GHResponse response = new GHResponse();
-        ResponsePath path = mock(ResponsePath.class);
+@Test
+public void mockitoTest_HasErrorsResponsePath() {
+    GHResponse response = new GHResponse();
+    ResponsePath path = mock(ResponsePath.class);
 
-        when(path.hasErrors()).thenReturn(true);
-        response.add(path);
+    when(path.hasErrors()).thenReturn(true);
+    response.add(path);
 
-        assertTrue(response.hasErrors());
-    }
+    assertTrue(response.hasErrors());
+}
 
-    @Test
-    void mockitoTest_GetDebugInfo() {
-        GHResponse response = new GHResponse();
+@Test
+void mockitoTest_GetDebugInfo() {
+    GHResponse response = new GHResponse();
 
-        response.addDebugInfo("Info");
+    response.addDebugInfo("Info");
 
-        ResponsePath path = mock(ResponsePath.class);
-        when(path.getDebugInfo()).thenReturn("pathInfo");
+    ResponsePath path = mock(ResponsePath.class);
+    when(path.getDebugInfo()).thenReturn("pathInfo");
 
-        response.add(path);
+    response.add(path);
 
-        String debug = response.getDebugInfo();
+    String debug = response.getDebugInfo();
 
-        assertEquals("Info; pathInfo", debug);
-    }
+    assertEquals("Info; pathInfo", debug);
+}
 
 @Test
 public void testPointListWithMockedPointAccess() {
