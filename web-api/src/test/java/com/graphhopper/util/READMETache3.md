@@ -161,32 +161,32 @@ public void testPointListWithMockedPointAccess() {
 
 ### Justification du choix des classes testées
 
-Nous avons choisi de tester les classes GHResponse et PointList car elles semblaient spécialement propices à
-des tests mockitos au vu de leurs dépendances d'autres classe.
+Nous avons choisi de tester les classes `GHResponse` et `PointList` car elles semblaient spécialement propices à
+des tests mockitos au vu de leurs dépendances d'autres classes.
 
 ### Choix des classes simulées et définition des mocks
 
-Pour GHResponse, il n'y a pas vraiment de choix à faire, il faut simuler ResponsePath puisque toutes
-les données sur l'itininéraire sont contenues dans cette classe. Étant donné que GHResponse a des fonctions
-qui prenne des attributs de ResponsePath en arguments, ResponsePath était la classe à simuler.
+Pour `GHResponse`, il n'y a pas vraiment de choix à faire, il faut simuler ResponsePath puisque toutes
+les données sur l'itininéraire sont contenues dans cette classe. Étant donné que `GHResponse` a des fonctions
+qui prennent des attributs de ResponsePath en arguments, ResponsePath était la classe à simuler.
 
-Pour PointList, le plus important est de tester les getters getLat() et getLon() de GHPoint. Nous
-aurions aussi pu tester getEle() de GHPoint3D. Nous imposons l'altitude et la longitude de notre mock
+Pour `PointList`, le plus important est de tester les getters `getLat()` et `getLon()` de `GHPoint`. Nous
+aurions aussi pu tester `getEle()` de GHPoint3D. Nous imposons la latitude et la longitude de notre mock
 de GHPoint. Nous attendons les même valeurs lorsqu'on les demande au getters testés.
 
 ### Choix des valeurs simulées
 
 Pour la classe GHResponse, deux des fonctions qui étaient le plus pertinentes à tester avec Mockito
-sont d'après nous getDebugInfo() et hasErrors.
+sont d'après nous `getDebugInfo()` et `hasErrors()`.
 
-Pour hasErrors(), il faut simuler que l'objet path de ResponsePath a bien des erreurs.
-Ensuite, nouis vérifions que la fonciton hasErrors de GHResponse rend bien le même verdict.
+Pour `hasErrors()`, il faut simuler que l'objet path de `ResponsePath` a bien des erreurs.
+Ensuite, nouis vérifions que la fonciton hasErrors de `GHResponse` rend bien le même verdict.
 
-Pour getDebugInfo(), nous vérifions que la concaténation entre les infos se passe correctement.
-Nous simulons donc un ajout de l'info "pathInfo" de l'objet ReponsePath.
+Pour `hasErrors()`, nous vérifions que la concaténation entre les infos se passe correctement.
+Nous simulons donc un ajout de l'info "pathInfo" de l'objet `ReponsePath`.
 Nous vérifions que le string renvoyé pas getDebugInfo est bel est bien la concaténation des infos
 avant et après l'ajout.
 
-Les valeurs de l'atitude et longitude ne sont pas du tout choisies au hasard.
+Les valeurs de la latitude et longitude ne sont pas du tout choisies au hasard.
 Bien au contraire, ce sont les coordonnées de la ville natale de Rick Astley:
 Newton-Le-Willos!
