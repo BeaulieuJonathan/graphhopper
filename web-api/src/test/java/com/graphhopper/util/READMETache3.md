@@ -104,3 +104,56 @@ $$
 Si c'est le cas on termine l'exécution avec `exit 1` et puisque dénominateur est le même des deux côtés on a qu'à comparer le numérateur.
 
 ## Tests avec les mocks
+
+Ajout de 2 tests mockito pour la classe GHResponse et 1 pour la classe ____.
+
+```java
+    @Test
+    public void mockitoTest_HasErrorsResponsePath() {
+        GHResponse response = new GHResponse();
+        ResponsePath path = mock(ResponsePath.class);
+
+        when(path.hasErrors()).thenReturn(true);
+        response.add(path);
+
+        assertTrue(response.hasErrors());
+    }
+
+    @Test
+    void mockitoTest_GetDebugInfo() {
+        GHResponse response = new GHResponse();
+
+        response.addDebugInfo("Info");
+
+        ResponsePath path = mock(ResponsePath.class);
+        when(path.getDebugInfo()).thenReturn("pathInfo");
+
+        response.add(path);
+
+        String debug = response.getDebugInfo();
+
+        assertEquals("Info; pathInfo", debug);
+    }
+```
+
+### Justification du choix des classes testées:
+Nous avons choisi de tester les classes GHResponse et ..... car elles semblaient spécialement propices à
+des tests mockitos au vu de leurs dépendances d'autres classe. De plus, elles sont très interessantes.
+
+### Choix des classes simulées et définition des mocks
+Pour GHResponse, il n'y a pas vraiment de choix à faire, il faut simuler ResponsePath puisque toutes 
+les données sur l'itininéraire sont contenues dans cette classe. Étant donné que GHResponse a des fonctions
+qui prenne des attributs de ResponsePath en arguments, ResponsePath était la classe à simuler.
+
+### Choix des valeurs simulées
+Pour la classe GHResponse, deux des fonctions qui étaient le plus pertinentes à tester avec Mockito 
+sont d'après nous getDebugInfo() et  hasErrors. 
+
+Pour hasErrors(), il faut simuler que l'objet path de ResponsePath a bien des erreurs.
+Ensuite, nouis vérifions que la fonciton hasErrors de GHResponse rend bien le même verdict.
+
+Pour getDebugInfo(), nous vérifions que la concaténation entre les infos se passe correctement.
+Nous simulons donc un ajout de l'info "pathInfo" de l'objet ReponsePath.
+Nous vérifions que le string renvoyé pas getDebugInfo est bel est bien la concaténation des infos 
+avant et après l'ajout.
+
