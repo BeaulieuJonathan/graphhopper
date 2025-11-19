@@ -4,14 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.github.javafaker.Faker;
-import com.graphhopper.util.shapes.GHPoint;
 
 import org.junit.jupiter.api.Test;
 
-
 public class PointListTest {
-
-    
 
     @Test
     public void testSetElevation() {
@@ -80,7 +76,7 @@ public class PointListTest {
         liste.trimToSize(3);
 
         assertEquals(3, liste.size());
-        for (int i = 0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             assertEquals(i, liste.getLat(i));
         }
     }
@@ -115,7 +111,7 @@ public class PointListTest {
             assertEquals(valeur, liste.getLat(i), 1e-6);
             assertEquals(valeur, liste.getLon(i), 1e-6);
             assertEquals(valeur, liste.getEle(i), 1e-6);
-        } 
+        }
 
     }
 
@@ -147,15 +143,14 @@ public class PointListTest {
     public void testPointListWithMockedPointAccess() {
         PointAccess point = mock(PointAccess.class);
 
-        when(point.getLat(0)).thenReturn(53.5); //Clearly a random town in Estonia... ?
-        when(point.getLon(0)).thenReturn(2.6);
+        when(point.getLat(0)).thenReturn(53.450); // Clearly a random town in Estonia... ?
+        when(point.getLon(0)).thenReturn(2.633);
 
-        PointList testedList = new PointList(3,false);
+        PointList testedList = new PointList(3, false);
 
-        testedList.add(point,0);
+        testedList.add(point, 0);
 
-        assertEquals(42.0,testedList.getLat(0));
-        assertEquals(67.0,testedList.getLon(0));
-        
+        assertEquals(53.450, testedList.getLat(0));
+        assertEquals(2.633, testedList.getLon(0));
     }
 }
