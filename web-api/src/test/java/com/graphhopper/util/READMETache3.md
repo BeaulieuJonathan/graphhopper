@@ -105,7 +105,7 @@ Si c'est le cas on termine l'exécution avec `exit 1` et puisque dénominateur e
 
 ## Tests avec les mocks
 
-Ajout de 2 tests mockito pour la classe GHResponse et 1 pour la classe ____.
+Ajout de 2 tests mockito pour la classe GHResponse et 1 pour la classe PointList.
 
 ```java
     @Test
@@ -134,16 +134,36 @@ Ajout de 2 tests mockito pour la classe GHResponse et 1 pour la classe ____.
 
         assertEquals("Info; pathInfo", debug);
     }
+
+@Test
+public void testPointListWithMockedPointAccess() {
+    PointAccess point = mock(PointAccess.class);
+
+    when(point.getLat(0)).thenReturn(42.0);
+    when(point.getLon(0)).thenReturn(67.0);
+
+    PointList testedList = new PointList(3,false);
+
+    testedList.add(point,0);
+
+    assertEquals(42.0,testedList.getLat(0));
+    assertEquals(67.0,testedList.getLon(0));
+
+}
 ```
 
 ### Justification du choix des classes testées:
-Nous avons choisi de tester les classes GHResponse et ..... car elles semblaient spécialement propices à
+Nous avons choisi de tester les classes GHResponse et PointList car elles semblaient spécialement propices à
 des tests mockitos au vu de leurs dépendances d'autres classe. De plus, elles sont très interessantes.
 
 ### Choix des classes simulées et définition des mocks
 Pour GHResponse, il n'y a pas vraiment de choix à faire, il faut simuler ResponsePath puisque toutes 
 les données sur l'itininéraire sont contenues dans cette classe. Étant donné que GHResponse a des fonctions
 qui prenne des attributs de ResponsePath en arguments, ResponsePath était la classe à simuler.
+
+Pour PointList, le plus important est de tester les getters getLat() et getLon() de GHPoint. Nous 
+aurions aussi pu tester getEle() de GHPoint3D. Nous imposons l'altitude et la longitude de notre mock
+de GHPoint. Nous attendons les même valeurs lorsqu'on les demande au getters testés.
 
 ### Choix des valeurs simulées
 Pour la classe GHResponse, deux des fonctions qui étaient le plus pertinentes à tester avec Mockito 
@@ -157,3 +177,6 @@ Nous simulons donc un ajout de l'info "pathInfo" de l'objet ReponsePath.
 Nous vérifions que le string renvoyé pas getDebugInfo est bel est bien la concaténation des infos 
 avant et après l'ajout.
 
+Les valeurs de l'atitude et longitude ne sont pas du tout choisies au hasard.
+Bien au contraire, ce sont les coordonnées de la ville natale de Rick Astley:
+Newton-Le-Willos!

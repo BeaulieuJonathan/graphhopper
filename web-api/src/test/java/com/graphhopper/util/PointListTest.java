@@ -147,8 +147,8 @@ public class PointListTest {
     public void testPointListWithMockedPointAccess() {
         PointAccess point = mock(PointAccess.class);
 
-        when(point.getLat(0)).thenReturn(42.0);
-        when(point.getLon(0)).thenReturn(67.0);
+        when(point.getLat(0)).thenReturn(53.5); //Clearly a random town in Estonia... ?
+        when(point.getLon(0)).thenReturn(2.6);
 
         PointList testedList = new PointList(3,false);
 
