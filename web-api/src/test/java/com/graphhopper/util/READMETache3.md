@@ -42,7 +42,7 @@ Cette étape calcule le nombre de mutants éliminés et le nombre total pour les
   run: mvn -f ./web-api test-compile org.pitest:pitest-maven:mutationCoverage
 ```
 
-Puisque Pitest ne peut pas être utilisé dans un projet multi-modules, nous avons décidé d'exécuter les tests de mutation seulement dans le module `web-api` où nous avons ajouté des tests.
+Dû à des restrictions sur le fonctionnement de Pitest dans un projet multi-modules, nous avons décidé d'exécuter les tests de mutation seulement dans le module `web-api` où nous avons ajouté des tests.
 
 ### Make report
 
@@ -55,7 +55,7 @@ Puisque Pitest ne peut pas être utilisé dans un projet multi-modules, nous avo
   if: always()
 ```
 
-Cette étape utilise l'action [test-summary](https://github.com/test-summary/action) pour générer un rapport de tests qui va être affiché dans le sommaire de l'action. L'intention est, à la base, d'avoir une méthode pour trouver si au moins un test a échoué afin d'assurer un [travail de qualité](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+Cette étape utilise l'action [test-summary](https://github.com/test-summary/action) pour générer un rapport de tests qui sera affiché dans le sommaire de l'action. L'intention est, à la base, d'avoir une méthode pour trouver si au moins un test a échoué afin d'assurer un [travail de qualité](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
 
 ### Special effect if failed tests
 
@@ -107,6 +107,8 @@ Si c'est le cas on termine l'exécution avec `exit 1` et puisque dénominateur e
 
 Ajout de 2 tests mockito pour la classe GHResponse et 1 pour la classe PointList.
 
+### [GHResponseTest](./GHResponseTest.java)
+
 ```java
 @Test
 public void mockitoTest_HasErrorsResponsePath() {
@@ -118,7 +120,9 @@ public void mockitoTest_HasErrorsResponsePath() {
 
   assertTrue(response.hasErrors());
 }
+```
 
+```java
 @Test
 void mockitoTest_GetDebugInfo() {
   GHResponse response = new GHResponse();
@@ -134,7 +138,11 @@ void mockitoTest_GetDebugInfo() {
 
   assertEquals("Info; pathInfo", debug);
 }
+```
 
+### [PointListTest](./PointListTest.java)
+
+```java
 @Test
 public void testPointListWithMockedPointAccess() {
   PointAccess point = mock(PointAccess.class);
@@ -151,7 +159,7 @@ public void testPointListWithMockedPointAccess() {
 }
 ```
 
-### Justification du choix des classes testées:
+### Justification du choix des classes testées
 
 Nous avons choisi de tester les classes GHResponse et PointList car elles semblaient spécialement propices à
 des tests mockitos au vu de leurs dépendances d'autres classe. De plus, elles sont très interessantes.

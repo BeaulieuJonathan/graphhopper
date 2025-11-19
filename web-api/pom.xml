@@ -40,13 +40,9 @@
                 <artifactId>pitest-maven</artifactId>
                 <version>1.18.2</version>
                 <configuration>
-                    <targetClasses>
-                        <param>com.graphhopper.util.PointList*</param>
-                    </targetClasses>
                     <outputFormats>
+                        <!-- CSV is needed for mutation coverage in the Github workflow -->
                         <outputFormat>CSV</outputFormat>
-                        <outputFormat>XML</outputFormat>
-                        <outputFormat>HTML</outputFormat>
                     </outputFormats>
                 </configuration>
                 <dependencies>
@@ -60,5 +56,3 @@
         </plugins>
     </build>
 </project>
-
-
