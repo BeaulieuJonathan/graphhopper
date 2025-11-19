@@ -162,7 +162,8 @@ public void testPointListWithMockedPointAccess() {
 ### Justification du choix des classes testées
 
 Nous avons choisi de tester les classes `GHResponse` et `PointList` car elles semblaient spécialement propices à
-des tests mockitos au vu de leurs dépendances d'autres classes.
+des tests mockitos au vu de leurs dépendances d'autres classes et surtout car `GHResponse` était très peu testée et qu'un test mockito apportait des tests pertinents et plus vastes.
+Par la même logique, il était important de faire un mocktest pour `PointList.add(PointAccess)` afin que le test reste unitaire.
 
 ### Choix des classes simulées et définition des mocks
 
