@@ -63,7 +63,7 @@ public class GHResponseTest {
 
         String debug = response.getDebugInfo();
 
-        assertEquals("Info;pathInfo", debug);
+        assertEquals("Info; pathInfo", debug);
     }
 
 
