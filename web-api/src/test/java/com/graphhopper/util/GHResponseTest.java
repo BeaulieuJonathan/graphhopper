@@ -50,4 +50,21 @@ public class GHResponseTest {
         assertTrue(response.hasErrors());
     }
 
+    @Test
+    void mockitoTest_GetDebugInfo() {
+        GHResponse response = new GHResponse();
+
+        response.addDebugInfo("Info");
+
+        ResponsePath path = mock(ResponsePath.class);
+        when(path.getDebugInfo()).thenReturn("pathInfo");
+
+        response.add(path);
+
+        String debug = response.getDebugInfo();
+
+        assertEquals("Info;pathInfo", debug);
+    }
+
+
 }
